@@ -1,5 +1,7 @@
 package org.launchcode.codingevents.models;
 
+import jakarta.validation.constraints.*;
+
 import java.util.Objects;
 
 /**
@@ -10,15 +12,41 @@ public class Event {
     private int id;
     private static int nextId = 1;
 
+    @Min(1)
+    private int numberOfAttendees;
+
+    @NotNull(message="Registration required")
+    @AssertTrue(message="Registration required")
+    private Boolean registrationRequired;
+
+    @NotBlank(message="Location is required")
+    @NotNull(message="Location is required")
+    private String location;
+
+    @NotBlank(message="Name is required")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters.")
     private String name;
+
+    @Size(max = 500, message = "Description too long!")
     private String description;
 
-    public Event(String name, String description) {
+    @NotBlank(message="Email is required")
+    @Email(message = "Invalid email. Try again.")
+    private String contactEmail;
+
+    public Event(String name, String description, String contactEmail, String location,
+                 Boolean registrationRequired, int numberOfAttendees) {
         this.name = name;
         this.description = description;
+        this.contactEmail = contactEmail;
+        this.location = location;
+        this.registrationRequired = registrationRequired;
+        this.numberOfAttendees = numberOfAttendees;
         this.id = nextId;
         nextId++;
     }
+
+    public Event() {}
 
     public String getName() {
         return name;
@@ -34,6 +62,38 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContactEmail() {
+        return contactEmail;
+    }
+
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Boolean getRegistrationRequired() {
+        return registrationRequired;
+    }
+
+    public void setRegistrationRequired(Boolean registrationRequired) {
+        this.registrationRequired = registrationRequired;
+    }
+
+    public Integer getNumberOfAttendees() {
+        return numberOfAttendees;
+    }
+
+    public void setNumberOfAttendees(Integer numberOfAttendees) {
+        this.numberOfAttendees = numberOfAttendees;
     }
 
     public int getId() {
